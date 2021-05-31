@@ -1,3 +1,19 @@
+##  创建数据表
+
+**语法**
+
+创建MySQL数据表需要以下信息：
+
+- 表名
+- 表字段名
+- 定义每个表字段
+
+```
+CREATE TABLE table_name (column_name column_type);
+```
+
+
+
 ##  删除数据
 
 **语法**
