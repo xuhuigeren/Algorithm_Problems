@@ -33,5 +33,40 @@ public:
         invertTree(root->left); // 左
         invertTree(root->right); // 右
         return root;
-}
+    }
+};
+
+class Solution {
+public:
+    TreeNode* mirrorTree(TreeNode* root) {
+        if (root == nullptr) return nullptr;
+        TreeNode* tmp = root->left;
+        root->left = mirrorTree(root->right);
+        root->right = mirrorTree(tmp);
+        return root;
+    }
+};
+
+
+//辅助栈
+class Solution {
+public:
+    TreeNode* mirrorTree(TreeNode* root) {
+        //辅助栈
+        if(root==NULL) return root;
+
+        stack<TreeNode *> st;
+        st.push(root);
+
+        while(!st.empty()){
+            TreeNode *node = st.top();
+            st.pop();
+            if(node->left!=NULL) st.push(node->left);
+            if(node->right!=NULL) st.push(node->right);
+            swap(node->left,node->right);
+
+        }
+        return root;
+
+    }
 };
