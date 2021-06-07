@@ -77,6 +77,30 @@ public:
     }
 };
 
+
+class Solution {
+public:
+    vector<int> getLeastNumbers(vector<int>& arr, int k) {
+        vector<int> vec(k, 0);
+        if (k == 0) { // 排除 0 的情况
+            return vec;
+        }
+        priority_queue<int> Q;  //默认大根堆
+        for (int i = 0; i < arr.size(); ++i) {
+            Q.push(arr[i]);
+            if(Q.size()>k)
+                Q.pop();
+        }
+
+        for (int i = 0; i < k; ++i) {
+            vec[i] = Q.top();
+            Q.pop();
+        }
+        return vec;
+    }
+    
+};
+
 /*
 方法三：快排思想
 我们可以借鉴快速排序的思想。我们知道快排的划分函数每次执行完后都能将数组分成两个部分，
