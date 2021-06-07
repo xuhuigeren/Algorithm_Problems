@@ -120,51 +120,78 @@ public:
 
 
 */
-class Solution {
-    int partition(vector<int>& nums, int l, int r) {
-        int pivot = nums[r];
-        int i = l - 1;
-        for (int j = l; j <= r - 1; ++j) {
-            if (nums[j] <= pivot) {
-                i = i + 1;
-                swap(nums[i], nums[j]);
-            }
+#include<bits/stdc++.h>
+using namespace std;
+
+class solution{
+public:
+    int partition(vector<int> &arr, int left, int right){
+        int i=left, j=right;
+        // 先以最右侧元素为基准
+        while (i < j) {
+            // 先从左往右遍历
+            while (i < j && arr[i] <= arr[right]) i++;
+            // 再从右往左遍历
+            while (i < j && arr[j] >= arr[right]) j--;
+            // i所指元素小于基准，j所指元素大于基准
+            // 交换i和j的元素
+            swap(arr[i], arr[j]);
+            // 循环进行，直到i和j指向同一个位置
         }
-        swap(nums[i + 1], nums[r]);
-        return i + 1;
+        swap(arr[i], arr[right]); // 将基准元素换到循环停止的位置
+        // 此时基准左边全小于它的数，右边全是大于它的数
+        return i; 
     }
 
-    // 基于随机的划分
-    int randomized_partition(vector<int>& nums, int l, int r) {
-        int i = rand() % (r - l + 1) + l;
-        swap(nums[r], nums[i]);
-        return partition(nums, l, r);
+    int randomized_partition(vector<int> &arr, int left, int right){
+        int rd = rand()%(right-left+1)+left;
+        swap(arr[right],arr[rd]);
+        return partition(arr,left,right);
+
     }
 
-    void randomized_selected(vector<int>& arr, int l, int r, int k) {
-        if (l >= r) {
+    void randomized_selected(vector<int> &arr, int left, int right, int k) {
+        if (left >= right) {
             return;
         }
-        int pos = randomized_partition(arr, l, r);
-        int num = pos - l + 1;
+        int pos = randomized_partition(arr, left, right);
+        int num = pos - left + 1;
         if (k == num) {
             return;
         } else if (k < num) {
-            randomized_selected(arr, l, pos - 1, k);
+            randomized_selected(arr, left, pos - 1, k);
         } else {
-            randomized_selected(arr, pos + 1, r, k - num);
+            randomized_selected(arr, pos + 1, right, k - num);
         }
     }
 
-public:
+
+
     vector<int> getLeastNumbers(vector<int>& arr, int k) {
-        srand((unsigned)time(NULL));
-        randomized_selected(arr, 0, (int)arr.size() - 1, k);
-        vector<int> vec;
-        for (int i = 0; i < k; ++i) {
-            vec.push_back(arr[i]);
+        vector<int> res;
+        randomized_selected(arr,0,arr.size()-1,k);
+        for(int i=0;i<k;++i){
+            res.push_back(arr[i]);
         }
-        return vec;
+        return res;
     }
+
 };
 
+int main(){
+
+    vector<int> arr;
+    arr.push_back(2);
+    arr.push_back(8);
+    arr.push_back(4);
+    arr.push_back(6);
+    arr.push_back(5);
+
+    int k = 4;
+    vector<int> res = solution().getLeastNumbers(arr,k);
+    for(int i=0;i<k;++i){
+        cout<<res[i]<<" ";
+    }
+
+    return 0;
+}
