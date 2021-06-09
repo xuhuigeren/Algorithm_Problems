@@ -195,3 +195,57 @@ int main(){
 
     return 0;
 }
+
+
+//快排
+
+class Solution {
+
+    int partition(vector<int> &nums, int left, int right){
+        int i=left, j=right;
+        int rd = rand()%(right-left+1)+left;
+        swap(nums[rd], nums[right]);
+
+        while(i<j){
+            while(i<j && nums[i]<=nums[right]) i++;
+            while(i<j && nums[j]>=nums[right]) j--;
+            swap(nums[i], nums[j]);
+        }
+        swap(nums[i],nums[right]);
+        return i;   
+    }
+//     void randomized_selected(vector<int> &arr, int left, int right, int k) {
+//         if (left >= right) {
+//             return;
+//         }
+//         int pos = partition(arr, left, right);
+//         int num = pos - left + 1;
+//         if (k == num) {
+//             return;
+//         } else if (k < num) {
+//             randomized_selected(arr, left, pos - 1, k);
+//         } else {
+//             randomized_selected(arr, pos + 1, right, k - num);
+//         }
+//     }
+
+    void randomized_selected(vector<int> &arr, int left, int right, int k) {
+        if (left >= right) return;
+        while(true){
+            int pos = partition(arr,left,right);
+            if(pos==k-1) return;
+            if(pos<k-1) left=pos+1;
+            if(pos>k-1) right=pos-1;
+        }
+    }
+public:
+    vector<int> getLeastNumbers(vector<int>& nums, int k) {
+         vector<int> res;
+        if (k==0 || k > nums.size()) return res;
+        randomized_selected(nums,0,nums.size()-1,k);
+        res.assign(nums.begin(),nums.begin()+k);
+        return res;
+
+    }
+};
+
