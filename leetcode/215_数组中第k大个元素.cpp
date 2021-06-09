@@ -49,9 +49,6 @@ public:
     }
 };
 
-
-
-//快速排序！！
 #include<bits/stdc++.h>
 using namespace std;
 
@@ -59,7 +56,6 @@ class Solution {
 
     int partition(vector<int> &nums, int left, int right){
         int i=left, j=right;
-        //随机选择
         int rd = rand()%(right-left+1)+left;
         swap(nums[rd], nums[right]);
 
@@ -85,7 +81,9 @@ public:
         return nums[k-1];
        
     }
+
 };
+
 
 int main(){
 
@@ -104,7 +102,10 @@ int main(){
     // arr.push_back(99);
 
     int k = 8 ;
+
     int res = Solution().findKthLargest(arr,k);
     cout<< res<<endl;
+
+
 
 }
