@@ -10,11 +10,23 @@
   9  20
     /  \
    15   7
-返回：
+返回一：
 
 [3,9,20,15,7]
  
+返回二：
+[
+  [3],
+  [9,20],
+  [15,7]
+]
 
+返回三：
+[
+  [3],
+  [20,9],
+  [15,7]
+]
 提示：
 
 节点总数 <= 1000
@@ -33,6 +45,7 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+（一）
 class Solution {
 public:
     vector<int> levelOrder(TreeNode* root) {
@@ -51,5 +64,60 @@ public:
             
         }
         return res;
+    }
+};
+
+
+
+（二）
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector <int>> res;
+        if(!root) return res;
+        queue<TreeNode*> qu;
+        if(root)  qu.push(root);
+        while(!qu.empty()){
+            int n=qu.size();
+            vector<int> vec;
+            for(int i=0;i<n;++i){
+                TreeNode* node=qu.front();
+                qu.pop();
+                vec.push_back(node->val);
+                if(node->left) qu.push(node->left);
+                if(node->right) qu.push(node->right);
+            }
+            res.push_back(vec);
+        }
+        return res;
+    }
+};
+
+（三）
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector <int>> res;
+        if(!root) return res;
+        queue<TreeNode*> qu;
+        if(root)  qu.push(root);
+        while(!qu.empty()){
+            int n=qu.size();
+            vector<int> vec;
+            for(int i=0;i<n;++i){
+                TreeNode* node=qu.front();
+                qu.pop();
+                vec.push_back(node->val);
+                if(node->left) qu.push(node->left);
+                if(node->right) qu.push(node->right);
+            }
+            res.push_back(vec);
+        }
+        int len = res.size();
+        for(int i=0;i<len;++i){
+            if(i%2==1) reverse(res[i].begin(),res[i].end());
+        }
+        return res;
+
     }
 };
