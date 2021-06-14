@@ -52,6 +52,9 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+//递归，但是多次拷贝path
+
 class Solution {
 public:
     //全局变量
@@ -79,3 +82,31 @@ public:
 
     }
 };
+
+
+//DFS + 回溯
+class Solution {
+
+    vector<vector <int>> res;
+    vector<int> path;
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        dfs(root,targetSum);
+        return res;
+
+    }
+
+    void dfs(TreeNode* root, int sum){
+        if(!root)  return;
+        sum=sum-root->val;
+        path.push_back(root->val);
+        if(!root->left&&!root->right&&sum==0){
+            res.push_back(path);
+        }
+        dfs(root->left,sum);
+        dfs(root->right,sum);
+        //回溯，非常重要
+        path.pop_back();
+    }
+};
+
