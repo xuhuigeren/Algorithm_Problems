@@ -1,0 +1,51 @@
+/*
+给定一个二叉树，返回所有从根节点到叶子节点的路径。
+
+说明: 叶子节点是指没有子节点的节点。
+
+示例:
+
+输入:
+
+   1
+ /   \
+2     3
+ \
+  5
+
+输出: ["1->2->5", "1->3"]
+
+解释: 所有根节点到叶子节点的路径为: 1->2->5, 1->3
+
+*/
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    vector<string> res;
+public:
+    vector<string> binaryTreePaths(TreeNode* root) {
+        dfs(root,"");
+        return res;
+
+    }
+    void dfs(TreeNode* root, string path){
+        if(!root)  return;
+        path+=to_string(root->val);         //to_string()
+        if(!root->left&&!root->right){
+            res.push_back(path);
+        }
+        dfs(root->left,path+"->");          //+"->"
+        dfs(root->right,path+"->");
+    }
+};
