@@ -1,0 +1,26 @@
+# 描述
+# 写一个 bash脚本以输出一个文本文件 nowcoder.txt 中第5行的内容。
+
+
+
+# 示例:
+# 假设 nowcoder.txt 内容如下：
+# welcome
+# to
+# nowcoder
+# this
+# is
+# shell
+# code
+
+# 你的脚本应当输出：
+# is
+
+# p 打印 通常 p 会与参数 sed -n 一起运行～
+sed-n '5p' nowcoder.txt
+
+head n 5 nowcoder.txt | tail -n 1
+
+awk 'NR==5{print $0}' nowcoder.txt
+
+awk '{if(NR==5){print $0}}' nowcoder.txt
