@@ -57,3 +57,28 @@ public:
         return ans;
     }
 };
+
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+
+        int n=s.size();
+        if(n==0) return 0;
+
+        int left=0, res=0;
+        unordered_set<char> st; 
+        for(int i=0;i<n;++i){
+            while(st.find(s[i])!=st.end()){ //s[i]在st中出现过
+                //去除窗口中最左边元素，窗口左指针++
+                st.erase(s[left]);
+                left++;
+            }
+            //s[i]在st中没出现过
+            res=max(res,i-left+1);
+            st.insert(s[i]);
+        }
+        return res;
+    }
+};
+
