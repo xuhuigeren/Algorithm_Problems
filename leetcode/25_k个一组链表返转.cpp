@@ -67,3 +67,31 @@ private:
     }
 };
 
+
+
+/*
+代码2 递归2
+代码逻辑同上面代码，只不过把翻转函数合到的递归函数里面，看起来更精简，更舒服。
+
+（注意，与代码1对比，还是有一些细微的差别）
+*/
+
+class Solution {
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        auto isOk = head;
+        for (int i = 0; i < k; ++i) {
+            if (!isOk) return head;
+            isOk = isOk->next;
+        }
+        ListNode *cur = head, *pre = nullptr, *next = nullptr;
+        for (int i = 0; i < k; ++i) {
+            next = cur->next;
+            cur->next = pre;
+            pre = cur, cur = next;
+        }
+        head->next = reverseKGroup(cur, k);
+        return pre;
+    }
+};
+
