@@ -1,7 +1,7 @@
 /*
  * @Author: Henry
  * @Date: 2021-07-22 20:53:17
- * @LastEditTime: 2021-07-22 21:39:13
+ * @LastEditTime: 2021-07-22 22:04:02
  * @Description: 
  * @FilePath: \worke:\Projects\Gits\Algorithm\leetcode\01_两数之和.cpp
  */
@@ -87,5 +87,20 @@ public:
             mp[nums[i]]=i;
         }
         return res;
+    }
+};
+
+// 再精简一下
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        unordered_map<int, int> m;
+        for (int i = 0; i < nums.size(); ++i) {
+            if (m.count(target - nums[i])) {
+                return {i, m[target - nums[i]]};
+            }
+            m[nums[i]] = i;
+        }
+        return {};
     }
 };
