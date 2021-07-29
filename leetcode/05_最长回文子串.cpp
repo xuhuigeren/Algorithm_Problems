@@ -1,7 +1,7 @@
 /*
  * @Author: Henry
  * @Date: 2021-06-12 16:50:03
- * @LastEditTime: 2021-07-28 21:59:32
+ * @LastEditTime: 2021-07-29 20:34:00
  * @Description: 
  */
 /*
@@ -70,5 +70,92 @@ private:
             R++;
         }
         return R-L-1;
+    }
+};
+
+
+
+/**
+ * 动态规划
+ * 1.确定dp数组（dp table）以及下标的含义
+ * 2.确定递推公式
+ * 3.dp数组如何初始化
+ * 4.确定遍历顺序
+ * 
+ * 在确定递推公式时，就要分析如下几种情况。
+ * 整体上是两种，就是s[i]与s[j]相等，s[i]与s[j]不相等这两种。
+ * 当s[i]与s[j]不相等，那没啥好说的了，dp[i][j]一定是false。
+ * 当s[i]与s[j]相等时，这就复杂一些了，又有如下三种情况
+ *  情况一：下标i 与 j相同，同一个字符例如a，当然是回文子串
+ *  情况二：下标i 与 j相差为1，例如aa，也是回文子串
+ *  情况三：下标：i 与 j相差大于1的时候，例如cabac，此时s[i]与s[j]已经相同了，
+ *  我们看i到j区间是不是回文子串就看aba是不是回文就可以了，那么aba的区间就是 i+1 与 j-1区间，
+ *  这个区间是不是回文就看dp[i + 1][j - 1]是否为true。
+ * 
+ *     —— —— —— ——   —— —— —— ——
+ *    |            |            |
+ *    |            |  dp[i][j]  |
+ *    |            |            |
+ *    |            |            |
+ *     —— —— —— ——  —— —— —— ——
+ *    |            |            |
+ *    |dp[i+1][j-1]|            |
+ *    |            |            |
+ *    |            |            |
+ *     —— —— —— ——   —— —— —— ——
+ */
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        // 布尔类型的dp[i][j]：表示区间范围[i,j] （注意是左闭右闭）的子串是否是回文子串，
+        // 如果是dp[i][j]为true，否则为false。
+        vector<vector<int>> dp(s.size(), vector<int>(s.size(), 0));
+        int maxlenth = 0;
+        int left = 0;
+        int right = 0;
+        // dp[i][j]由dp[i+1][j-1]确定，因此从左下向右上遍历
+        for (int i = s.size() - 1; i >= 0; i--) {
+            for (int j = i; j < s.size(); j++) {
+                if (s[i] == s[j]) {
+                    if (j - i <= 1) {    // 情况一 和 情况二
+                        dp[i][j] = true;
+                    } else if (dp[i + 1][j - 1]) { // 情况三
+                        dp[i][j] = true;
+                    }
+                }
+                if (dp[i][j] && j - i + 1 > maxlenth) {
+                    maxlenth = j - i + 1;
+                    left = i;
+                    right = j;
+                }
+            }
+
+        }
+        return s.substr(left, right - left + 1);
+    }
+};
+
+
+// 以上代码是为了凸显情况一二三，当然是可以简洁一下的
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        vector<vector<int>> dp(s.size(), vector<int>(s.size(), 0));
+        int maxlenth = 0;
+        int left = 0;
+        int right = 0;
+        for (int i = s.size() - 1; i >= 0; i--) {
+            for (int j = i; j < s.size(); j++) {
+                if (s[i] == s[j] && (j - i <= 1 || dp[i + 1][j - 1])) {
+                    dp[i][j] = true;
+                }
+                if (dp[i][j] && j - i + 1 > maxlenth) {
+                    maxlenth = j - i + 1;
+                    left = i;
+                    right = j;
+                }
+            }
+        }
+        return s.substr(left, maxlenth);
     }
 };
