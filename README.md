@@ -3,5 +3,10 @@
 * <"Practice makes perfect">
 * <"Talk is cheap, show me the code.">
 
+**Practice makes perfect.**
+
+**Talk is cheap, show me the code. **
+
 
 > @xuhuigeren  
+
